@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 
 # Targets (programs to compile)
-TARGETS = ejer3 ejer4
+TARGETS = ejer1 ejer2 ejer3 ejer4
 
 # Default target
 all: $(TARGETS)
@@ -21,9 +21,5 @@ ejer3: ejer3.c
 ejer4: ejer4.c
 	$(CC) $(CFLAGS) -o $@ $<
 
-
 clean:
 	rm -f $(TARGETS)
-
-
-
