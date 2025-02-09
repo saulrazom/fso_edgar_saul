@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 
 # Targets (programs to compile)
-TARGETS = ejer4
+TARGETS = ejer3 ejer4
 
 # Default target
 all: $(TARGETS)
