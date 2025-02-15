@@ -16,7 +16,7 @@ int validate_credentials(const char *username, const char *password) {
     }
 
     char line[256];
-    while (fgets(line, sizeof(line), file) {
+    while (fgets(line, sizeof(line), file)) {
         line[strcspn(line, "\n")] = 0;  // Eliminar el salto de línea
         char *saved_username = strtok(line, ":");
         char *saved_password = strtok(NULL, ":");
