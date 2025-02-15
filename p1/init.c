@@ -4,94 +4,78 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
-#include <string.h>
 
-#define NUM_GETTY 6  // Número de procesos getty
 
-pid_t getty_pids[NUM_GETTY];  // Array para almacenar los PID de los procesos getty
-volatile sig_atomic_t shutdown_requested = 0;  // Bandera para indicar que se solicitó un apagado
+pid_t getty_pids[6];
 
 // Función para manejar la señal de shutdown
 void signal_handler(int signum) {
     if (signum == SIGUSR1) {
         printf("Init: Received shutdown signal. Terminating all processes...\n");
-        shutdown_requested = 1;  // Activar la bandera de apagado
+
+        // Terminar todos los procesos getty
+        for (int i = 0; i < 6; i++) {
+            if (getty_pids[i] > 0) {
+                kill(getty_pids[i], SIGTERM);  // Enviar señal de terminación
+                printf("Init: Terminated getty process with PID %d\n", getty_pids[i]);
+            }
+        }
+
+        // Terminar el proceso init
+        printf("Init: All processes terminated. Exiting...\n");
+        exit(0);
     }
 }
 
 // Función para crear un proceso getty en una nueva ventana xterm
-void create_getty(int index) {
+void create_getty(int i, char spid) {
     pid_t pid = fork();
     if (pid < 0) {
-        perror("Fork failed");
+        perror("fork");
         exit(1);
     } else if (pid == 0) {
-        // Proceso hijo: ejecutar getty en una nueva ventana xterm
-        char *args[] = {"xterm", "-e", "./getty", NULL};
+        // HIJO -> GETTY
+        char *args[] = {"xterm", "-fn", "xft:Monospace:size=18", "-e", "./getty", spid, NULL};
         execvp("xterm", args);
-        // Si execvp falla
-        perror("execvp failed");
-        exit(1);
     } else {
-        // Proceso padre: almacenar el PID del proceso getty
-        getty_pids[index] = pid;
-        printf("Init: Created getty process with PID %d\n", pid);
-    }
-}
-
-// Función para terminar todos los procesos getty
-void terminate_all_getty() {
-    for (int i = 0; i < NUM_GETTY; i++) {
-        if (getty_pids[i] > 0) {
-            kill(getty_pids[i], SIGTERM);  // Enviar señal de terminación
-            printf("Init: Terminated getty process with PID %d\n", getty_pids[i]);
-        }
+        // PADRE
+        getty_pids[i] = pid;
+        printf("PROCESO GETTY (%d)\n", pid);
     }
 }
 
 int main() {
-    printf("Init: Starting init process (PID: %d)\n", getpid());
+     char spid[10];
+     sprintf(spid,"%d",getpid());
+     printf("PADRE (%s)\n", spid);
 
-    // Registrar el manejador de la señal de shutdown
-    if (signal(SIGUSR1, signal_handler) == SIG_ERR) {
-        perror("Failed to register signal handler");
-        exit(1);
-    }
+    // Inicializar signal handler para SIGUSR1
+    signal(SIGUSR1, signal_handler);
 
     // Crear los 6 procesos getty
-    for (int i = 0; i < NUM_GETTY; i++) {
-        create_getty(i);
+    for (int i = 0; i < 6; i++) {
+        create_getty(i, spid);
     }
 
-    // Monitorear los procesos getty
+    // Verificación de que los 6 procesos siempre estén en ejecución
     while (1) {
-        if (shutdown_requested) {
-            // Si se solicitó un apagado, terminar todos los procesos getty
-            terminate_all_getty();
-            printf("Init: All processes terminated. Exiting...\n");
-            exit(0);  // Terminar init
-        }
-
         int status;
         pid_t terminated_pid = waitpid(-1, &status, WNOHANG);  // No bloquear
 
         if (terminated_pid > 0) {
             // Un proceso getty terminó
-            printf("Init: Getty process with PID %d terminated.\n", terminated_pid);
+            printf("GETTY PROCESS (%d) TERMINATED.\n", terminated_pid);
 
             // Encontrar el índice del proceso terminado
-            for (int i = 0; i < NUM_GETTY; i++) {
+            for (int i = 0; i < 6; i++) {
                 if (getty_pids[i] == terminated_pid) {
-                    // Crear un nuevo proceso getty en su lugar, solo si no hay un apagado en progreso
-                    if (!shutdown_requested) {
-                        create_getty(i);
-                    }
+                    create_getty(i, spid);
                     break;
                 }
             }
         }
 
-        sleep(1);  // Esperar 1 segundo antes de verificar nuevamente
+        sleep(1);  
     }
 
     return 0;

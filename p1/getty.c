@@ -33,23 +33,18 @@ int validate_credentials(const char *username, const char *password) {
     return 0;  // Credenciales inválidas
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    char *spid = argv[1];
+
     char username[256];
     char password[256];
 
     while (1) {
         // Solicitar login y password
         printf("Login: ");
-        if (!fgets(username, sizeof(username), stdin)) {
-            break;  // Si fgets falla (por ejemplo, si el usuario presiona Ctrl+D)
-        }
-        username[strcspn(username, "\n")] = 0;  // Eliminar el salto de línea
-
+        scanf("%s", username);
         printf("Password: ");
-        if (!fgets(password, sizeof(password), stdin)) {
-            break;  // Si fgets falla
-        }
-        password[strcspn(password, "\n")] = 0;  // Eliminar el salto de línea
+        scanf("%s", password);
 
         // Validar credenciales
         if (validate_credentials(username, password)) {
@@ -61,13 +56,12 @@ int main() {
                 perror("Fork failed");
                 exit(1);
             } else if (pid == 0) {
-                // Proceso hijo: ejecutar sh
-                char ppid_str[16];
-                snprintf(ppid_str, sizeof(ppid_str), "%d", getppid());  // Pasar el PID de init a sh
-                execl("./sh", "./sh", ppid_str, NULL);
-                // Si execl falla
-                perror("execl failed");
-                exit(1);
+              char *args[] = {"fork_exec_xterm_terminal_L3", spid, NULL};
+              execvp("./fork_exec_xterm_terminal_L3", args);
+
+             // If execvp() fails
+             perror("execvp failed");
+             exit(1);
             } else {
                 // Proceso padre: esperar a que sh termine
                 wait(NULL);
