@@ -53,7 +53,10 @@ int main() {
     printf("Init: Starting init process (PID: %d)\n", getpid());
 
     // Registrar el manejador de la señal de shutdown
-    signal(SIGUSR1, signal_handler);
+    if (signal(SIGUSR1, signal_handler) == SIG_ERR) {
+        perror("Failed to register signal handler");
+        exit(1);
+    }
 
     // Crear los 6 procesos getty
     for (int i = 0; i < NUM_GETTY; i++) {
