@@ -27,12 +27,16 @@ void execute_command(char *command, int background) {
 
 int main(int argc, char *argv[]) {
     char input[256];
-    pid_t ppid = atoi(argv[1]);
+    pid_t ppid = atoi(argv[1]);  // Obtener el PID del proceso padre (getty)
 
     while (1) {
         // Mostrar el prompt
         printf("sh > ");
-        fgets(input, sizeof(input), stdin);
+        if (!fgets(input, sizeof(input), stdin)) {
+            // Si fgets falla (por ejemplo, si el usuario presiona Ctrl+D)
+            printf("\nExiting shell...\n");
+            break;
+        }
         input[strcspn(input, "\n")] = 0;  // Eliminar el salto de línea
 
         // Comandos especiales
@@ -41,7 +45,7 @@ int main(int argc, char *argv[]) {
             break;
         } else if (strcmp(input, "shutdown") == 0) {
             printf("Initiating shutdown...\n");
-            kill(ppid, SIGUSR1);   
+            kill(ppid, SIGUSR1);  // Enviar señal de shutdown a init
             break;
         }
 
