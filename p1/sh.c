@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(input, "shutdown") == 0) {
             printf("Initiating shutdown...\n");
             kill(ppid, SIGUSR1);  // Enviar señal de shutdown a init
-            break;
+            exit(0);
         }
 
         // Ejecutar comando en primer o segundo plano
