@@ -5,8 +5,9 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <string.h>
+#define N_GETTYS 6 
 
-pid_t getty_pids[6];
+pid_t getty_pids[N_GETTYS];
 
 // Función para manejar la señal de shutdown
 void signal_handler(int signum) {
@@ -14,7 +15,7 @@ void signal_handler(int signum) {
         printf("Parent received SIGUSR1. Terminating all getty processes...\n");
 
         // Enviar SIGTERM a todos los procesos getty
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < N_GETTYS; i++) {
             if (getty_pids[i] > 0) {
                 printf("Terminating getty process %d\n", getty_pids[i]);
                 kill(getty_pids[i], SIGTERM);
@@ -22,7 +23,7 @@ void signal_handler(int signum) {
         }
 
         // Esperar a que todos los procesos hijos terminen
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < N_GETTYS; i++) {
             if (getty_pids[i] > 0) {
                 waitpid(getty_pids[i], NULL, 0);
             }
@@ -66,7 +67,7 @@ int main() {
     memset(getty_pids, 0, sizeof(getty_pids));
 
     // Crear los 6 procesos getty
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < N_GETTYS; i++) {
         create_getty(i, spid);
     }
 
@@ -88,7 +89,7 @@ int main() {
             }
         }
 
-        usleep(100000);  // Esperar 100ms para evitar un uso excesivo de CPU
+        sleep(1);
     }
 
     return 0;
