@@ -79,8 +79,10 @@ int main() {
             // Encontrar el índice del proceso terminado
             for (int i = 0; i < NUM_GETTY; i++) {
                 if (getty_pids[i] == terminated_pid) {
-                    // Crear un nuevo proceso getty en su lugar
-                    create_getty(i);
+                    // Crear un nuevo proceso getty en su lugar, solo si no hay un apagado en progreso
+                    if (!shutdown_requested) {
+                        create_getty(i);
+                    }
                     break;
                 }
             }

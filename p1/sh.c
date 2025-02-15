@@ -27,7 +27,7 @@ void execute_command(char *command, int background) {
 
 int main(int argc, char *argv[]) {
     char input[256];
-    pid_t ppid = atoi(argv[1]);  // Obtener el PID del proceso padre (getty)
+    pid_t init_pid = atoi(argv[1]);  // Obtener el PID del proceso init
 
     while (1) {
         // Mostrar el prompt
@@ -45,8 +45,12 @@ int main(int argc, char *argv[]) {
             break;
         } else if (strcmp(input, "shutdown") == 0) {
             printf("Initiating shutdown...\n");
-            kill(ppid, SIGUSR1);  // Enviar señal de shutdown a init
-            exit(0);
+            if (kill(init_pid, SIGUSR1) == -1) {
+                perror("Failed to send SIGUSR1 to init");
+            } else {
+                printf("Shutdown signal sent to init (PID: %d).\n", init_pid);
+            }
+            break;
         }
 
         // Ejecutar comando en primer o segundo plano

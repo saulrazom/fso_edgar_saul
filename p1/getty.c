@@ -63,7 +63,7 @@ int main() {
             } else if (pid == 0) {
                 // Proceso hijo: ejecutar sh
                 char ppid_str[16];
-                snprintf(ppid_str, sizeof(ppid_str), "%d", getppid());  // Pasar el PID de getty a sh
+                snprintf(ppid_str, sizeof(ppid_str), "%d", getppid());  // Pasar el PID de init a sh
                 execl("./sh", "./sh", ppid_str, NULL);
                 // Si execl falla
                 perror("execl failed");
