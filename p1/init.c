@@ -11,7 +11,26 @@ pid_t getty_pids[6];
 // Función para manejar la señal de shutdown
 void signal_handler(int signum) {
     if (signum == SIGUSR1) {
-        printf("Parent received SIGUSR1 from child at L1\n");
+        printf("Parent received SIGUSR1. Terminating all getty processes...\n");
+
+        // Enviar SIGTERM a todos los procesos getty
+        for (int i = 0; i < 6; i++) {
+            if (getty_pids[i] > 0) {
+                printf("Terminating getty process %d\n", getty_pids[i]);
+                kill(getty_pids[i], SIGTERM);
+            }
+        }
+
+        // Esperar a que todos los procesos hijos terminen
+        for (int i = 0; i < 6; i++) {
+            if (getty_pids[i] > 0) {
+                waitpid(getty_pids[i], NULL, 0);
+            }
+        }
+
+        // Terminar el proceso padre
+        printf("All getty processes terminated. Exiting parent process.\n");
+        exit(0);
     }
 }
 
