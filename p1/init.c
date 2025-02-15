@@ -9,11 +9,13 @@
 #define NUM_GETTY 6  // Número de procesos getty
 
 pid_t getty_pids[NUM_GETTY];  // Array para almacenar los PID de los procesos getty
+volatile sig_atomic_t shutdown_in_progress = 0;  // Bandera para indicar que se está realizando un apagado
 
 // Función para manejar la señal de shutdown
 void signal_handler(int signum) {
     if (signum == SIGUSR1) {
         printf("Init: Received shutdown signal. Terminating all processes...\n");
+        shutdown_in_progress = 1;  // Activar la bandera de apagado
 
         // Terminar todos los procesos getty
         for (int i = 0; i < NUM_GETTY; i++) {
@@ -72,8 +74,10 @@ int main() {
             // Encontrar el índice del proceso terminado
             for (int i = 0; i < NUM_GETTY; i++) {
                 if (getty_pids[i] == terminated_pid) {
-                    // Crear un nuevo proceso getty en su lugar
-                    create_getty(i);
+                    // Crear un nuevo proceso getty en su lugar, solo si no hay un apagado en progreso
+                    if (!shutdown_in_progress) {
+                        create_getty(i);
+                    }
                     break;
                 }
             }
