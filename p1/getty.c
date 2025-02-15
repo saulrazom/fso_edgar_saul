@@ -40,16 +40,9 @@ int main() {
     while (1) {
         // Solicitar login y password
         printf("Login: ");
-        if (!fgets(username, sizeof(username), stdin)) {
-            break;  // Si fgets falla (por ejemplo, si el usuario presiona Ctrl+D)
-        }
-        username[strcspn(username, "\n")] = 0;  // Eliminar el salto de línea
-
+        scanf("%s", username);
         printf("Password: ");
-        if (!fgets(password, sizeof(password), stdin)) {
-            break;  // Si fgets falla
-        }
-        password[strcspn(password, "\n")] = 0;  // Eliminar el salto de línea
+        scanf("%s", password);
 
         // Validar credenciales
         if (validate_credentials(username, password)) {
@@ -62,9 +55,7 @@ int main() {
                 exit(1);
             } else if (pid == 0) {
                 // Proceso hijo: ejecutar sh
-                char ppid_str[16];
-                snprintf(ppid_str, sizeof(ppid_str), "%d", getppid());  // Pasar el PID de getty a sh
-                execl("./sh", "./sh", ppid_str, NULL);
+                execl("./sh", "./sh", NULL);
                 // Si execl falla
                 perror("execl failed");
                 exit(1);
