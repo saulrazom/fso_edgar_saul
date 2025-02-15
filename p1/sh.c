@@ -40,7 +40,18 @@ int main() {
             break;
         } else if (strcmp(input, "shutdown") == 0) {
             printf("Initiating shutdown...\n");
-            kill(getppid(), SIGUSR1);  // Enviar señal de shutdown a init
+
+            // Obtener el PID del proceso init (padre de getty, que es el padre de sh)
+            pid_t ppid = getppid();  // PID de getty
+            pid_t init_pid = getppid();  // Asumimos que init es el padre de getty
+
+            // Enviar la señal SIGUSR1 a init
+            if (kill(init_pid, SIGUSR1) == -1) {
+                perror("Failed to send SIGUSR1 to init");
+            } else {
+                printf("Shutdown signal sent to init (PID: %d).\n", init_pid);
+            }
+
             break;
         }
 
