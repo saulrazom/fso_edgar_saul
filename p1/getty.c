@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define PASSWD_FILE "passwd"  // Archivo de contraseñas
+#define PASSWD_FILE "passwords.txt"  // Archivo de contraseñas
 
 // Función para validar el login y password
 int validate_credentials(const char *username, const char *password) {
