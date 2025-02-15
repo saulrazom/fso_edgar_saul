@@ -12,12 +12,11 @@ pid_t getty_pids[N_GETTYS];
 // Función para manejar la señal de shutdown
 void signal_handler(int signum) {
     if (signum == SIGUSR1) {
-        printf("Parent received SIGUSR1. Terminating all getty processes...\n");
+        printf("Terminando todos los procesos...\n");
 
-        // Enviar SIGTERM a todos los procesos getty
+        // KILL -> GETTY
         for (int i = 0; i < N_GETTYS; i++) {
             if (getty_pids[i] > 0) {
-                printf("Terminating getty process %d\n", getty_pids[i]);
                 kill(getty_pids[i], SIGTERM);
             }
         }
@@ -29,8 +28,6 @@ void signal_handler(int signum) {
             }
         }
 
-        // Terminar el proceso padre
-        printf("All getty processes terminated. Exiting parent process.\n");
         exit(0);
     }
 }
@@ -45,7 +42,7 @@ void create_getty(int i, const char *spid) {
         // HIJO -> GETTY
         char *args[] = {"xterm", "-fn", "xft:Monospace:size=18", "-e", "./getty", (char *)spid, NULL};
         execvp("xterm", args);
-        // Si execvp falla, terminar el proceso hijo
+
         perror("execvp");
         exit(1);
     } else {
@@ -63,24 +60,19 @@ int main() {
     // Inicializar signal handler para SIGUSR1
     signal(SIGUSR1, signal_handler);
 
-    // Inicializar el arreglo de pids
-    memset(getty_pids, 0, sizeof(getty_pids));
-
-    // Crear los 6 procesos getty
     for (int i = 0; i < N_GETTYS; i++) {
         create_getty(i, spid);
     }
 
-    // Verificación de que los 6 procesos siempre estén en ejecución
     while (1) {
         int status;
-        pid_t terminated_pid = waitpid(-1, &status, WNOHANG);  // No bloquear
+        pid_t terminated_pid = waitpid(-1, &status, WNOHANG);  
 
         if (terminated_pid > 0) {
             // Un proceso getty terminó
-            printf("GETTY PROCESS (%d) TERMINATED.\n", terminated_pid);
+            printf("Terminó proceso Getty (%d).\n", terminated_pid);
 
-            // Encontrar el índice del proceso terminado
+            // Restaurar proceso getty terminado
             for (int i = 0; i < 6; i++) {
                 if (getty_pids[i] == terminated_pid) {
                     create_getty(i, spid);
@@ -89,7 +81,7 @@ int main() {
             }
         }
 
-        sleep(1);
+        sleep(1); // Verificar cada segundo
     }
 
     return 0;

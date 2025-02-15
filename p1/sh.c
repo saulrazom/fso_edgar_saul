@@ -6,53 +6,52 @@
 #include <signal.h>
 #include <sys/wait.h>
 
-// Función para ejecutar un comando en primer o segundo plano
+// Acepta comandos en primero segundo plano
 void execute_command(char *command, int background) {
     pid_t pid = fork();
     if (pid < 0) {
-        perror("Fork failed");
+        perror("fork");
         return;
     } else if (pid == 0) {
-        // Proceso hijo: ejecutar el comando
+        // HIJO
         char *args[] = {"/bin/sh", "-c", command, NULL};
         execvp("/bin/sh", args);
         // Si execvp falla
         perror("execvp failed");
         exit(1);
     } else if (!background) {
-        // Proceso padre: esperar si es en primer plano
+        // PADRE -> Espera a que el hijo termine
         wait(NULL);
     }
 }
 
 int main(int argc, char *argv[]) {
     char input[256];
-    pid_t ppid = atoi(argv[1]);  // Obtener el PID del proceso padre (getty)
+    pid_t ppid = atoi(argv[1]);  // PID PADRE
 
     while (1) {
-        // Mostrar el prompt
         printf("sh > ");
         if (!fgets(input, sizeof(input), stdin)) {
-            // Si fgets falla (por ejemplo, si el usuario presiona Ctrl+D)
-            printf("\nExiting shell...\n");
+            // Mal input
+            printf("\nInput incorrecto...\n");
             break;
         }
-        input[strcspn(input, "\n")] = 0;  // Eliminar el salto de línea
+        input[strcspn(input, "\n")] = 0;  // Quitar salto de línea
 
-        // Comandos especiales
+        // Exit y shutdown
         if (strcmp(input, "exit") == 0) {
-            printf("Exiting shell...\n");
+            printf("Regresando a login...\n");
             break;
         } else if (strcmp(input, "shutdown") == 0) {
-            printf("Initiating shutdown...\n");
+            printf("Shutdown en proceso...\n");
             kill(ppid, SIGUSR1);  // Enviar señal de shutdown a init
             exit(0);
         }
 
-        // Ejecutar comando en primer o segundo plano
+        // Detección de si es primer o segundo plano
         int background = (input[strlen(input) - 1] == '&');
         if (background) {
-            input[strlen(input) - 1] = 0;  // Eliminar el '&'
+            input[strlen(input) - 1] = 0;  // Quitar &
         }
         execute_command(input, background);
     }

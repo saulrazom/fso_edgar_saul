@@ -5,19 +5,18 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define PASSWD_FILE "passwd"  // Archivo de contraseñas
+#define PASSWD_FILE "passwd"  
 
-// Función para validar el login y password
 int validate_credentials(const char *username, const char *password) {
     FILE *file = fopen(PASSWD_FILE, "r");
     if (!file) {
-        perror("Failed to open passwd file");
+        perror("file");
         return 0;
     }
 
     char line[256];
     while (fgets(line, sizeof(line), file)) {
-        line[strcspn(line, "\n")] = 0;  // Eliminar el salto de línea
+        line[strcspn(line, "\n")] = 0; 
         char *saved_username = strtok(line, ":");
         char *saved_password = strtok(NULL, ":");
 
@@ -25,12 +24,12 @@ int validate_credentials(const char *username, const char *password) {
             strcmp(username, saved_username) == 0 &&
             strcmp(password, saved_password) == 0) {
             fclose(file);
-            return 1;  // Credenciales válidas
+            return 1;  // Válidas
         }
     }
 
     fclose(file);
-    return 0;  // Credenciales inválidas
+    return 0; // Inválidas
 }
 
 int main(int argc, char *argv[]) {
@@ -41,19 +40,19 @@ int main(int argc, char *argv[]) {
 
     while (1) {
         // Solicitar login y password
-        printf("Login: ");
+        printf("User: ");
         scanf("%s", username);
         printf("Password: ");
         scanf("%s", password);
 
         // Validar credenciales
         if (validate_credentials(username, password)) {
-            printf("Authentication successful. Starting shell...\n");
+            printf("Datos correctos. Iniciando sh\n");
 
-            // Crear un proceso hijo para ejecutar sh
+            // SH
             pid_t pid = fork();
             if (pid < 0) {
-                perror("Fork failed");
+                perror("fork");
                 exit(1);
             } else if (pid == 0) {
               char *args[] = {"sh", spid, NULL};
@@ -63,12 +62,11 @@ int main(int argc, char *argv[]) {
              perror("execvp failed");
              exit(1);
             } else {
-                // Proceso padre: esperar a que sh termine
                 wait(NULL);
-                printf("Shell terminated. Returning to login prompt.\n");
+                printf("Regresando a login...\n");
             }
         } else {
-            printf("Authentication failed. Please try again.\n");
+            printf("Usuario o contraseña incorrecta. Intente de nuevo\n");
         }
     }
 
