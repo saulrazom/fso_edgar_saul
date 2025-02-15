@@ -56,8 +56,8 @@ int main(int argc, char *argv[]) {
                 perror("Fork failed");
                 exit(1);
             } else if (pid == 0) {
-              char *args[] = {"fork_exec_xterm_terminal_L3", spid, NULL};
-              execvp("./fork_exec_xterm_terminal_L3", args);
+              char *args[] = {"sh", spid, NULL};
+              execvp("./sh", args);
 
              // If execvp() fails
              perror("execvp failed");
