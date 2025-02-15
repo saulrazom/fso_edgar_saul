@@ -4,39 +4,30 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
-
+#include <string.h>
 
 pid_t getty_pids[6];
 
 // Función para manejar la señal de shutdown
 void signal_handler(int signum) {
     if (signum == SIGUSR1) {
-        printf("Init: Received shutdown signal. Terminating all processes...\n");
-
-        // Terminar todos los procesos getty
-        for (int i = 0; i < 6; i++) {
-            if (getty_pids[i] > 0) {
-                kill(getty_pids[i], SIGTERM);  // Enviar señal de terminación
-                printf("Init: Terminated getty process with PID %d\n", getty_pids[i]);
-            }
-        }
-
-        // Terminar el proceso init
-        printf("Init: All processes terminated. Exiting...\n");
-        exit(0);
+        printf("Parent received SIGUSR1 from child at L1\n");
     }
 }
 
 // Función para crear un proceso getty en una nueva ventana xterm
-void create_getty(int i, char spid) {
+void create_getty(int i, const char *spid) {
     pid_t pid = fork();
     if (pid < 0) {
         perror("fork");
         exit(1);
     } else if (pid == 0) {
         // HIJO -> GETTY
-        char *args[] = {"xterm", "-fn", "xft:Monospace:size=18", "-e", "./getty", spid, NULL};
+        char *args[] = {"xterm", "-fn", "xft:Monospace:size=18", "-e", "./getty", (char *)spid, NULL};
         execvp("xterm", args);
+        // Si execvp falla, terminar el proceso hijo
+        perror("execvp");
+        exit(1);
     } else {
         // PADRE
         getty_pids[i] = pid;
@@ -45,12 +36,15 @@ void create_getty(int i, char spid) {
 }
 
 int main() {
-     char spid[10];
-     sprintf(spid,"%d",getpid());
-     printf("PADRE (%s)\n", spid);
+    char spid[10];
+    sprintf(spid, "%d", getpid());
+    printf("PADRE (%s)\n", spid);
 
     // Inicializar signal handler para SIGUSR1
     signal(SIGUSR1, signal_handler);
+
+    // Inicializar el arreglo de pids
+    memset(getty_pids, 0, sizeof(getty_pids));
 
     // Crear los 6 procesos getty
     for (int i = 0; i < 6; i++) {
@@ -75,7 +69,7 @@ int main() {
             }
         }
 
-        sleep(1);  
+        usleep(100000);  // Esperar 100ms para evitar un uso excesivo de CPU
     }
 
     return 0;
