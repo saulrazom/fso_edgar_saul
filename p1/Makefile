@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra
 
 # Targets (programs to compile)
-TARGETS = init getty sh 
+TARGETS = init getty sh programax
 
 # Default target
 all: $(TARGETS)
@@ -18,6 +18,8 @@ getty: getty.c
 sh: sh.c
 	$(CC) $(CFLAGS) -o $@ $<
 
+programax: programax.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
 	rm -f $(TARGETS)
