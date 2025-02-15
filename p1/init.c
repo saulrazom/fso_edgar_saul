@@ -11,14 +11,19 @@ pid_t getty_pids[6];
 // Función para manejar la señal de shutdown
 void signal_handler(int signum) {
     if (signum == SIGUSR1) {
-        printf("Terminating all processes...\n");
+        printf("Init: Received shutdown signal. Terminating all processes...\n");
+
         // Terminar todos los procesos getty
         for (int i = 0; i < 6; i++) {
             if (getty_pids[i] > 0) {
-                kill(getty_pids[i], SIGTERM);  
+                kill(getty_pids[i], SIGTERM);  // Enviar señal de terminación
+                printf("Init: Terminated getty process with PID %d\n", getty_pids[i]);
             }
         }
-        exit(0);  
+
+        // Terminar el proceso init
+        printf("Init: All processes terminated. Exiting...\n");
+        exit(0);
     }
 }
 
