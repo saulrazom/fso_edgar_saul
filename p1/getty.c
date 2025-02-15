@@ -14,10 +14,10 @@ int validate_credentials(const char *username, const char *password) {
         return 0;
     }
 
-    char line[256];
-    while (fgets(line, sizeof(line), file)) {
-        line[strcspn(line, "\n")] = 0; 
-        char *saved_username = strtok(line, ":");
+    char data[40];
+    while (fgets(data, sizeof(data), file)) {
+        data[strcspn(data, "\n")] = 0; // Quitar salto de línea
+        char *saved_username = strtok(data, ":");
         char *saved_password = strtok(NULL, ":");
 
         if (saved_username && saved_password &&
@@ -35,8 +35,8 @@ int validate_credentials(const char *username, const char *password) {
 int main(int argc, char *argv[]) {
     char *spid = argv[1];
 
-    char username[256];
-    char password[256];
+    char username[16];
+    char password[16];
 
     while (1) {
         // Solicitar login y password
