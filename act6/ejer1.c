@@ -58,16 +58,16 @@ int main()
 	start_ts = ts.tv_sec; // Tiempo inicial
 
 	// Esta es la parte que hay que paralelizar
-	
-	 // Crear hilos para procesar la matriz en paralelo
-    int thread_rows = SIZE / NTHREADS;
+    int curr_st = 0;
+	int chunk_size = SIZE / NTHREADS;
     for (int i = 0; i < NTHREADS; i++) {
-        thread_range[i].st = i * thread_rows;
-        thread_range[i].end = (i == NTHREADS - 1) ? SIZE : (i + 1) * thread_rows;
+        thread_range[i].st = curr_st;
+   		thread_range[i].end = curr_st + chunk_size;
+    	curr_st += chunk_size;
         pthread_create(&threads[i], NULL, del_not_primes, &thread_range[i]);
     }
 
-    for (int i = 0; i < NTHREADS; i++) {
+    for (int i = 0; i < NTHREADS; i++) { 
         pthread_join(threads[i], NULL);
     }
 	
