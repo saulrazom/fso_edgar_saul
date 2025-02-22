@@ -5,7 +5,7 @@
 #include <sys/time.h>
 
 
-#define NUM_THREADS 2  
+#define NUM_THREADS 4  
 
 double f(double x) {
     return sqrt(1 - x * x);
@@ -61,7 +61,7 @@ double divide_work(int n) {
 
 
 int main() {
-    long n = 100000000;  
+    long n = 1000000000;  
     struct timeval start, end; 
     double duration;
 

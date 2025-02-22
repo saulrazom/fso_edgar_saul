@@ -21,7 +21,7 @@ double calculate_pi(int n){
 
 int main()
 {
-    long n = 100000000;  
+    long n = 1000000000;  
     struct timeval start, end;
     double duration;
 
