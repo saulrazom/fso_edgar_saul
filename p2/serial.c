@@ -1,3 +1,6 @@
+// Saul Razo Magallanes
+// Edgar Alonso Zaragoza Delgadillo
+
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
