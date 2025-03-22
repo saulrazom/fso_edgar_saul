@@ -4,13 +4,13 @@ CFLAGS = -Wall -Wextra
 LDFLAGS = -lm  
 
 # Targets (programs to compile)
-TARGETS = serial parallel
+TARGETS = mercator 
 
 # Default target
 all: $(TARGETS)
 
 # Rule to compile each program
-serial: serial.c
+mercator: mercator.c
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) 
 
 clean:
