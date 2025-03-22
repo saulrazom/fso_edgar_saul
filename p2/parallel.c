@@ -7,7 +7,7 @@
 #include <sys/time.h>
 
 
-#define NUM_THREADS 4  
+#define NUM_THREADS 2  
 
 double f(double x) {
     return sqrt(1 - x * x);
@@ -53,7 +53,7 @@ double divide_work(int n) {
     }
 
     
-    for (int i = 0; i < NUM_THREADS; i++) {
+    for (int i = 0; i < NUM_THREADS; i++) { 
         pthread_join(threads[i], NULL); 
         total_sum += thread_data[i].sum; 
     }
