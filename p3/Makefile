@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra
 LDFLAGS = -lm  
 
 # Targets (programs to compile)
-TARGETS = mercator mercator2 
+TARGETS = mercator mercator_sem
 
 # Default target
 all: $(TARGETS)
@@ -13,7 +13,7 @@ all: $(TARGETS)
 mercator: mercator.c
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) 
 
-mercator2: mercator2.c
+mercator_sem: mercator_sem.c
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) 
 
 clean:

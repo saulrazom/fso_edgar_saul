@@ -1,3 +1,6 @@
+// Saul Razo Magallanes
+// Edgar Alonso Zaragoza Delgadillo
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -16,13 +19,13 @@ typedef struct {
     int proc_count;
     double x_val;
     double res;
+    // Se reemplaza el funcionamiento de int start_all con el de los semáforos start_sem y end_sem
 } SHARED;
 
 SHARED *shared;
 
-// Semáforos para sincronización
 sem_t *start_sem; // Esclavos pueden comenzar
-sem_t *end_sem;   // Esclavos han terminado
+sem_t *end_sem;   // Esclavos terminan
 sem_t *mutex;    
 
 double get_member(int n, double x) {
@@ -107,9 +110,9 @@ int main() {
     sem_unlink("/mutex");
 
     // Inicializa los semáforos
-    start_sem = sem_open("/start_sem", O_CREAT | O_EXCL, 0666, 0); // Inicialmente bloqueado
-    end_sem = sem_open("/end_sem", O_CREAT | O_EXCL, 0666, 0);     // Inicialmente bloqueado
-    mutex = sem_open("/mutex", O_CREAT | O_EXCL, 0666, 1);         // Inicialmente desbloqueado
+    start_sem = sem_open("/start_sem", O_CREAT | O_EXCL, 0666, 0); // bloqueado
+    end_sem = sem_open("/end_sem", O_CREAT | O_EXCL, 0666, 0);     // bloqueado
+    mutex = sem_open("/mutex", O_CREAT | O_EXCL, 0666, 1);         // desbloqueado para que el primer proceso pueda entrar
 
     if (start_sem == SEM_FAILED || end_sem == SEM_FAILED || mutex == SEM_FAILED) {
         perror("Error al crear los semáforos");
@@ -151,7 +154,6 @@ int main() {
     shmdt(shared);
     shmctl(shmid, IPC_RMID, NULL);
 
-    // Cierra y elimina los semáforos
     sem_close(start_sem);
     sem_close(end_sem);
     sem_close(mutex);
