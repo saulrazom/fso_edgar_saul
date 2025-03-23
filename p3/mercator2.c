@@ -21,9 +21,9 @@ typedef struct {
 SHARED *shared;
 
 // Semáforos para sincronización
-sem_t *start_sem; // Para indicar que los esclavos pueden comenzar
-sem_t *end_sem;   // Para indicar que los esclavos han terminado
-sem_t *mutex;     // Para proteger la variable compartida proc_count
+sem_t *start_sem; // Esclavos pueden comenzar
+sem_t *end_sem;   // Esclavos han terminado
+sem_t *mutex;    
 
 double get_member(int n, double x) {
     int i;
