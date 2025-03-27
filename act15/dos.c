@@ -14,8 +14,8 @@ typedef struct {
 } BUFFER;
 
 // Semáforos para implementar el monitor
-sem_t monitor_mutex;    // Controla el acceso al monitor
-sem_t condition_sem;    // Para la condición de espera
+sem_t mutex_mon;    // Controla el acceso al monitor
+sem_t contition;    // Replica el funcionamiento de la cola de condición
 int waiting_count = 0;  // Número de hilos esperando
 
 void enter_monitor();
@@ -39,8 +39,8 @@ int main()
 
     srand(getpid());
 
-    sem_init(&monitor_mutex, 0, 1);
-    sem_init(&condition_sem, 0, 0);
+    sem_init(&mutex_mon, 0, 1);
+    sem_init(&contition, 0, 0);
 
     buffer_init(&buffer);
 
@@ -50,33 +50,40 @@ int main()
     pthread_join(tid[0],NULL);
     pthread_join(tid[1],NULL);
 
-    sem_destroy(&monitor_mutex);
-    sem_destroy(&condition_sem);
+    sem_destroy(&mutex_mon);
+    sem_destroy(&contition);
 }
 
 void enter_monitor()
 {
-    sem_wait(&monitor_mutex);
+    // Usa los semáforos necesarios para permitir 
+    // que solo un hilo entre el monitor
+    sem_wait(&mutex_mon);
 }
 
 void leave_monitor()
 {
-    sem_post(&monitor_mutex);
+    // Usa los semáforos necesarios para que 
+    // el hilo libere el monitor
+    sem_post(&mutex_mon);
 }
 
 void cwait()
 {
+    // Usa los semáforos necesarios para que el hilo que lo ejecute se bloquée en una cola de condición
     waiting_count++;
-    sem_post(&monitor_mutex);
-    sem_wait(&condition_sem);
-    sem_wait(&monitor_mutex);
+    sem_post(&mutex_mon);
+    sem_wait(&contition);
+    sem_wait(&mutex_mon);
 }
 
 void cnotify()
 {
+    // Usa los semáforos necesarios para que el hilo 
+    // que se libere un hilo que está en la cola de condición 
     if (waiting_count > 0) {
         waiting_count--;
-        sem_post(&condition_sem);
+        sem_post(&contition);
     }
 }
 
