@@ -1,0 +1,180 @@
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P1] Entrando a sección de entrada. flag[1] = true
+[P1] turno = 2
+[P1] Verificando: (flag[2] || flag[0]) && turno == 2 → (0 || 0) && (2 == 2)
+[P1] **ENTRA** a la sección crítica
+[P1] **SALE** de la sección crítica
+[P1] flag[1] = false
+[P0] Entrando a sección de entrada. flag[0] = true
+[P0] turno = 1
+[P0] Verificando: (flag[1] || flag[2]) && turno == 1 → (0 || 0) && (1 == 1)
+[P0] **ENTRA** a la sección crítica
+[P0] **SALE** de la sección crítica
+[P0] flag[0] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
+[P2] Entrando a sección de entrada. flag[2] = true
+[P2] turno = 0
+[P2] Verificando: (flag[0] || flag[1]) && turno == 0 → (0 || 0) && (0 == 0)
+[P2] **ENTRA** a la sección crítica
+[P2] **SALE** de la sección crítica
+[P2] flag[2] = false
